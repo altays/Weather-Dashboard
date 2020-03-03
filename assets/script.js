@@ -119,34 +119,55 @@ $.ajax(({
     let currentTimeBlock = calculateTimeBlock(currentHour)
     let timeBlocksRemaining=calculateTimeBlocksLeft(currentHour);
 
-    console.log("Current timeblock is " + currentTimeBlock + ". There are " + timeBlocksRemaining + " timeblocks left.");
+    // console.log("Current timeblock is " + currentTimeBlock + ". There are " + timeBlocksRemaining + " timeblocks left.");
 
     // work out logic for determining number of days left based on dt_txt
     // while responseFiveDay.list[i].dt_txt !== responseFiveDay.list[j].dt_txt, add to sum? checks for if days are the same
     // since the dt_txt also has hours listed at the end, the hours will ahve to be trimmed off 
 
     dayOneIcon=responseFiveDay.list[0].weather[0].icon;
-    //calculating average for day 1 based on timeblocks left in day
+
+    // a string from dt_txt that just has the day and month
+    let dayStart = responseFiveDay.list[0].dt_txt.slice(0,10);
+    let dayNext;
+    // counter to figure out how much to offset
+    let counter=0;
+
+    // loop to figure out offset
     for (let i = 0; i < 8; i++) {
-        // console.log("Main temp at index " + i + " is " + kelvinToFahrenheit(responseVal.list[i].main.temp));
-        dayOneTempSum+= kelvinToFahrenheit(responseFiveDay.list[i].main.temp);
-        dayOneHumidSum+= responseFiveDay.list[i].main.temp;
-        // console.log(responseVal.list[i].dt_txt);
+
+        dayNext = responseFiveDay.list[i].dt_txt.slice(0,10);
+        if (dayStart == dayNext) {
+ 
+            console.log("Main temp at index " + i + " is " + kelvinToFahrenheit(responseVal.list[i].main.temp));
+            console.log("Counter is at "+ counter + " and the first day is " + dayStart + "and index is at " + i);
+            counter++;
+        }
     }
-    dayOneTempSum = (dayOneTempSum/8).toFixed(0);
-    dayOneHumidSum = (dayOneHumidSum/64).toFixed(0);
+
+    console.log("Offset is " + counter);
+
+    // calculating average time blocks based on offset
+    
+    // for (let j = (0 + counter); j < (8 + counter); j++) {
+    //     dayOneTempSum+= kelvinToFahrenheit(responseFiveDay.list[j].main.temp);
+    //     dayOneHumidSum+= responseFiveDay.list[j].main.humidity; 
+    //     counter++;
+    //     console.log(dayOneTempSum + " , " + dayOneHumidSum + " , " + counter)
+    // }
+    
+    // dayOneTempSum = (dayOneTempSum).toFixed(0);
+    // dayOneHumidSum = (dayOneHumidSum).toFixed(0);
        
-    // pull date from all four three hour groups, average together, convert to Fahrenheit
-    // dayOneTemp= kelvinToFahrenheit(calculateAverageFiveDay());
-    // pull data from all four thee hour groups, average together
-    // dayOneHumid= kelvinToFahrenheit(calculateAverageFiveDay());
     console.log("Day One Info: Date " + dayOneDate +"\nDay One Icon: " + dayOneIcon +"\nDay One Temp: " + dayOneTempSum +"F.\nDay One Humidity: " + dayOneHumidSum + "%.");
 
+
+    
     dayTwoDate;
     dayTwoIcon;
     dayTwoTempSum;
     dayTwoHumidSum;
-    console.log("Day Two Info: Date " + dayTwoDate +"\nDay Two Icon: " + dayTwoIcon);
+    // console.log("Day Two Info: Date " + dayTwoDate +"\nDay Two Icon: " + dayTwoIcon);
     
     dayThreeDate;
     dayThreeIcon;
