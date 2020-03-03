@@ -17,15 +17,18 @@
 // #image-dump
 // #search-history
 
+// appID for open weather
+
 let appID="d4c97eb69f4c233c45990ad2f9bc1349";
 
-// object variables
+// moment.js variables
+
+let currentHour = moment().hour();
 
 //one day
 
 let selectionLocation = "Columbia,MD,USA";
 let cityName;
-let currentDate;
 let weatherIcon;
 let currentTemp;
 let currentHumid;
@@ -38,11 +41,9 @@ let currentLon;
 let responseVal;
 
 // uv index
-
 let uvValue;
 
 //5 day
-
 let dayOneDate;
 let dayOneIcon;
 let dayOneTemp;
@@ -70,12 +71,23 @@ let dayFiveHumid;
 
 // helper functions
 
+// converting from Kelvin to fahrenheit
 function kelvinToFahrenheit(temp) {
     return (temp - 273.15 ) * 1.8;
 }
 
-function calculateAverageFiveDay(data1,data2,data3,data4,data5) {
-    return (data1+data2+data3+data4+data5)/5;
+//iterate over arrays for # of arrays until next day, pull the value and add to sum, divide sum by number of arrays
+function calculateAverageFiveDay() {
+    return ;
+}
+
+// return time block - each block is a 3 hour period
+function calculateTimeBlock(hour) {
+    return Math.round(hour / 3);
+}
+
+function calculateTimeBlocksLeft(hour){
+    return 8-calculateTimeBlock(hour);
 }
 
 // one day
@@ -86,7 +98,6 @@ $.ajax(({
 })).then(function(response){
     // console.log("One Day: " + JSON.stringify(response));
     cityName = response.name;
-    currentDate;
     weatherIcon = response.weather[0].icon;
     currentTempKelvin = response.main.temp;
     currentTempFahrenheit = kelvinToFahrenheit(currentTempKelvin).toFixed(2);
@@ -95,10 +106,11 @@ $.ajax(({
     currentWindDegrees = response.wind.deg;
     currentLat = response.coord.lat;
     currentLon = response.coord.lon;
-    console.log("City Name: " + cityName + " \n Current Date: " + currentDate + "\nWeather Icon: " + weatherIcon + "\nCurrent Temp: " + currentTempFahrenheit);
+    console.log("City Name: " + cityName +  "\nWeather Icon: " + weatherIcon + "\nCurrent Temp: " + currentTempFahrenheit);
     console.log("Current Humidity: " + currentHumid + "\n Current WindSpeed: " + currentWindSpeed + "\nCurrent Wind Direction: " + currentWindDegrees);
     console.log("Current Latitude: " + currentLat + "\n Current Long: " + currentLon);
 
+    // need latitude and longitude to get UV index
     $.ajax(({
         url: "http://api.openweathermap.org/data/2.5/uvi?APPID="+appID+"&lat="+currentLat + "&lon=" + currentLon,
         method: "GET"
@@ -119,18 +131,19 @@ $.ajax(({
     // console.log("5 Day: " + JSON.stringify(responseFiveDay));
     responseVal=responseFiveDay;
 
-
     dayOneDate=responseFiveDay.list[0].dt_txt;
     dayOneIcon=responseFiveDay.list[0].weather[0].icon;
     // pull date from all four three hour groups, average together, convert to Fahrenheit
-    dayOneTemp;
+    // dayOneTemp= kelvinToFahrenheit(calculateAverageFiveDay());
     // pull data from all four thee hour groups, average together
-    dayOneHumid;
+    // dayOneHumid= kelvinToFahrenheit(calculateAverageFiveDay());
+    console.log("Day One Info: Date " + dayOneDate +"\nDay One Icon: " + dayOneIcon);
 
     dayTwoDate;
     dayTwoIcon;
     dayTwoTemp;
     dayTwoHumid;
+    console.log("Day Two Info: Date " + dayTwoDate +"\nDay Two Icon: " + dayTwoIcon);
     
     dayThreeDate;
     dayThreeIcon;
@@ -147,7 +160,3 @@ $.ajax(({
     dayFiveTemp;
     dayFiveHumid;
 })
-
-// uv index
-
-
