@@ -27,32 +27,33 @@ let uvValue;
 
 //5 day
 let momentVar = moment();
+
 let dayOneDate = moment().day(currentDay).format("MMMM" + " DD");
 let dayOneIcon;
-let dayOneTemp;
-let dayOneHumid;
-
-
+let dayOneTempSum = 0;
+let dayOneHumidSum = 0;
 
 let dayTwoDate = moment().day(currentDay + 1).format("MMMM" + " DD");
 let dayTwoIcon;  
-let dayTwoTemp;
-let dayTwoHumid;
+let dayTwoTempSum = 0;
+let dayTwoHumidSum = 0;
 
-let dayThreeDate = moment().day(currentDay + 2).format("MMMM" + " DD");;
+let dayThreeDate = moment().day(currentDay + 2).format("MMMM" + " DD");
 let dayThreeIcon;
-let dayThreeTemp;
-let dayThreeHumid;
+let dayThreeTempSum = 0;
+let dayThreeHumidSum = 0;
 
-let dayFourDate = moment().day(currentDay + 3).format("MMMM" + " DD");;
+let dayFourDate = moment().day(currentDay + 3).format("MMMM" + " DD");
 let dayFourIcon;
-let dayFourTemp;
-let dayFourHumid;
+let dayFourTempSum = 0;
+let dayFourHumidSum = 0;
 
-let dayFiveDate = moment().day(currentDay + 4).format("MMMM" + " DD");;
+let dayFiveDate = moment().day(currentDay + 4).format("MMMM" + " DD");
 let dayFiveIcon;
-let dayFiveTemp;
-let dayFiveHumid;
+let dayFiveTempSum = 0;
+let dayFiveHumidSum = 0;
+
+let todayDate = moment().format("MMMM DD YYYY")
 
 console.log("Tomorrow is "+ dayOneDate + ". Next day is " + dayTwoDate);
 
@@ -100,7 +101,7 @@ $.ajax(({
     })).then(function(responseUV){
         // console.log("UV Index: " + JSON.stringify(responseUV));
         uvValue=responseUV.value;
-        console.log("Current UV Index: " + uvValue);
+        // console.log("Current UV Index: " + uvValue);
         
     })
 })
@@ -117,45 +118,48 @@ $.ajax(({
 
     let currentTimeBlock = calculateTimeBlock(currentHour)
     let timeBlocksRemaining=calculateTimeBlocksLeft(currentHour);
+
     console.log("Current timeblock is " + currentTimeBlock + ". There are " + timeBlocksRemaining + " timeblocks left.");
-    
+
+    // work out logic for determining number of days left based on dt_txt
+    // while responseFiveDay.list[i].dt_txt !== responseFiveDay.list[j].dt_txt, add to sum? checks for if days are the same
+    // since the dt_txt also has hours listed at the end, the hours will ahve to be trimmed off 
+
     dayOneIcon=responseFiveDay.list[0].weather[0].icon;
-
     //calculating average for day 1 based on timeblocks left in day
-    let day1Sum=0;
-    for (let i = 0 + currentTimeBlock; i < 8 + currentTimeBlock; i++) {
+    for (let i = 0; i < 8; i++) {
         // console.log("Main temp at index " + i + " is " + kelvinToFahrenheit(responseVal.list[i].main.temp));
-        day1Sum+= kelvinToFahrenheit(responseVal.list[i].main.temp);
-        console.log(responseVal.list[i].dt_txt);
+        dayOneTempSum+= kelvinToFahrenheit(responseFiveDay.list[i].main.temp);
+        dayOneHumidSum+= responseFiveDay.list[i].main.temp;
+        // console.log(responseVal.list[i].dt_txt);
     }
-    day1Sum = (day1Sum/8).toFixed(0);
-    console.log("Main temp tomorrow is " + day1Sum + "F");
-
-
+    dayOneTempSum = (dayOneTempSum/8).toFixed(0);
+    dayOneHumidSum = (dayOneHumidSum/64).toFixed(0);
+       
     // pull date from all four three hour groups, average together, convert to Fahrenheit
     // dayOneTemp= kelvinToFahrenheit(calculateAverageFiveDay());
     // pull data from all four thee hour groups, average together
     // dayOneHumid= kelvinToFahrenheit(calculateAverageFiveDay());
-    console.log("Day One Info: Date " + dayOneDate +"\nDay One Icon: " + dayOneIcon);
+    console.log("Day One Info: Date " + dayOneDate +"\nDay One Icon: " + dayOneIcon +"\nDay One Temp: " + dayOneTempSum +"F.\nDay One Humidity: " + dayOneHumidSum + "%.");
 
     dayTwoDate;
     dayTwoIcon;
-    dayTwoTemp;
-    dayTwoHumid;
+    dayTwoTempSum;
+    dayTwoHumidSum;
     console.log("Day Two Info: Date " + dayTwoDate +"\nDay Two Icon: " + dayTwoIcon);
     
     dayThreeDate;
     dayThreeIcon;
-    dayThreeTemp;
-    dayThreeHumid;
+    dayThreeTempSum;
+    dayThreeHumidSum;
     
     dayFourDate;
     dayFourIcon;
-    dayFourTemp;
-    dayFourHumid;
+    dayFourTempSum;
+    dayFourHumidSum;
     
     dayFiveDate;
     dayFiveIcon;
-    dayFiveTemp;
-    dayFiveHumid;
+    dayFiveTempSum;
+    dayFiveHumidSum;
 })
