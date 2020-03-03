@@ -5,6 +5,7 @@ let appID="d4c97eb69f4c233c45990ad2f9bc1349";
 // moment.js variables
 
 let currentHour = moment().hour();
+let currentDay = parseInt(moment().format("DD"));
 
 //one day
 
@@ -25,30 +26,35 @@ let responseVal;
 let uvValue;
 
 //5 day
-let dayOneDate;
+let momentVar = moment();
+let dayOneDate = moment().day(currentDay).format("MMMM" + " DD");
 let dayOneIcon;
 let dayOneTemp;
 let dayOneHumid;
 
-let dayTwoDate;
-let dayTwoIcon;
+
+
+let dayTwoDate = moment().day(currentDay + 1).format("MMMM" + " DD");
+let dayTwoIcon;  
 let dayTwoTemp;
 let dayTwoHumid;
 
-let dayThreeDate;
+let dayThreeDate = moment().day(currentDay + 2).format("MMMM" + " DD");;
 let dayThreeIcon;
 let dayThreeTemp;
 let dayThreeHumid;
 
-let dayFourDate;
+let dayFourDate = moment().day(currentDay + 3).format("MMMM" + " DD");;
 let dayFourIcon;
 let dayFourTemp;
 let dayFourHumid;
 
-let dayFiveDate;
+let dayFiveDate = moment().day(currentDay + 4).format("MMMM" + " DD");;
 let dayFiveIcon;
 let dayFiveTemp;
 let dayFiveHumid;
+
+console.log("Tomorrow is "+ dayOneDate + ". Next day is " + dayTwoDate);
 
 // helper functions
 
@@ -83,9 +89,9 @@ $.ajax(({
     currentWindDegrees = response.wind.deg;
     currentLat = response.coord.lat;
     currentLon = response.coord.lon;
-    console.log("City Name: " + cityName +  "\nWeather Icon: " + weatherIcon + "\nCurrent Temp: " + currentTempFahrenheit);
-    console.log("Current Humidity: " + currentHumid + "\n Current WindSpeed: " + currentWindSpeed + "\nCurrent Wind Direction: " + currentWindDegrees);
-    console.log("Current Latitude: " + currentLat + "\n Current Long: " + currentLon);
+    // console.log("City Name: " + cityName +  "\nWeather Icon: " + weatherIcon + "\nCurrent Temp: " + currentTempFahrenheit);
+    // console.log("Current Humidity: " + currentHumid + "\n Current WindSpeed: " + currentWindSpeed + "\nCurrent Wind Direction: " + currentWindDegrees);
+    // console.log("Current Latitude: " + currentLat + "\n Current Long: " + currentLon);
 
     // need latitude and longitude to get UV index
     $.ajax(({
@@ -109,18 +115,23 @@ $.ajax(({
     responseVal=responseFiveDay;
     console.log(responseVal);
 
+    let currentTimeBlock = calculateTimeBlock(currentHour)
     let timeBlocksRemaining=calculateTimeBlocksLeft(currentHour);
-   
-    dayOneDate=responseFiveDay.list[0].dt_txt; 
+    console.log("Current timeblock is " + currentTimeBlock + ". There are " + timeBlocksRemaining + " timeblocks left.");
+    
     dayOneIcon=responseFiveDay.list[0].weather[0].icon;
 
+    //calculating average for day 1 based on timeblocks left in day
     let day1Sum=0;
-    for (let i = 0; i < timeBlocksRemaining; i++) {
+    for (let i = 0 + currentTimeBlock; i < 8 + currentTimeBlock; i++) {
         // console.log("Main temp at index " + i + " is " + kelvinToFahrenheit(responseVal.list[i].main.temp));
         day1Sum+= kelvinToFahrenheit(responseVal.list[i].main.temp);
+        console.log(responseVal.list[i].dt_txt);
     }
-    day1Sum = (day1Sum/timeBlocksRemaining).toFixed(0);
-    console.log("Main temp today is " + day1Sum + "F");
+    day1Sum = (day1Sum/8).toFixed(0);
+    console.log("Main temp tomorrow is " + day1Sum + "F");
+
+
     // pull date from all four three hour groups, average together, convert to Fahrenheit
     // dayOneTemp= kelvinToFahrenheit(calculateAverageFiveDay());
     // pull data from all four thee hour groups, average together
