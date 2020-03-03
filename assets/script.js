@@ -1,22 +1,3 @@
-// WHEN I search for a city
-// THEN I am presented with current and future conditions for that city and that city is added to the search history
-
-// WHEN I view current weather conditions for that city
-// THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-
-// WHEN I view the UV index
-// THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-
-// WHEN I view future weather conditions for that city
-// THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
-
-// WHEN I click on a city in the search history
-// THEN I am again presented with current and future conditions for that city
-
-// #text-dump
-// #image-dump
-// #search-history
-
 // appID for open weather
 
 let appID="d4c97eb69f4c233c45990ad2f9bc1349";
@@ -76,16 +57,12 @@ function kelvinToFahrenheit(temp) {
     return (temp - 273.15 ) * 1.8;
 }
 
-//iterate over arrays for # of arrays until next day, pull the value and add to sum, divide sum by number of arrays
-function calculateAverageFiveDay() {
-    return ;
-}
-
 // return time block - each block is a 3 hour period
 function calculateTimeBlock(hour) {
     return Math.round(hour / 3);
 }
 
+// return number of timeblocks left in day
 function calculateTimeBlocksLeft(hour){
     return 8-calculateTimeBlock(hour);
 }
@@ -130,9 +107,20 @@ $.ajax(({
 })).then(function(responseFiveDay){
     // console.log("5 Day: " + JSON.stringify(responseFiveDay));
     responseVal=responseFiveDay;
+    console.log(responseVal);
 
-    dayOneDate=responseFiveDay.list[0].dt_txt;
+    let timeBlocksRemaining=calculateTimeBlocksLeft(currentHour);
+   
+    dayOneDate=responseFiveDay.list[0].dt_txt; 
     dayOneIcon=responseFiveDay.list[0].weather[0].icon;
+
+    let day1Sum=0;
+    for (let i = 0; i < timeBlocksRemaining; i++) {
+        // console.log("Main temp at index " + i + " is " + kelvinToFahrenheit(responseVal.list[i].main.temp));
+        day1Sum+= kelvinToFahrenheit(responseVal.list[i].main.temp);
+    }
+    day1Sum = (day1Sum/timeBlocksRemaining).toFixed(0);
+    console.log("Main temp today is " + day1Sum + "F");
     // pull date from all four three hour groups, average together, convert to Fahrenheit
     // dayOneTemp= kelvinToFahrenheit(calculateAverageFiveDay());
     // pull data from all four thee hour groups, average together
