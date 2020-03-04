@@ -135,10 +135,9 @@ $.ajax(({
 
     // loop to figure out offset
     for (let i = 0; i < 8; i++) {
-
         dayNext = responseFiveDay.list[i].dt_txt.slice(0,10);
         if (dayStart == dayNext) {
- 
+            console.log(dayNext)
             console.log("Main temp at index " + i + " is " + kelvinToFahrenheit(responseVal.list[i].main.temp));
             console.log("Counter is at "+ counter + " and the first day is " + dayStart + "and index is at " + i);
             counter++;
@@ -149,19 +148,17 @@ $.ajax(({
 
     // calculating average time blocks based on offset
     
-    // for (let j = (0 + counter); j < (8 + counter); j++) {
-    //     dayOneTempSum+= kelvinToFahrenheit(responseFiveDay.list[j].main.temp);
-    //     dayOneHumidSum+= responseFiveDay.list[j].main.humidity; 
-    //     counter++;
-    //     console.log(dayOneTempSum + " , " + dayOneHumidSum + " , " + counter)
-    // }
+    for (let i = (0 + counter); i < (8 + counter); i++) {
+        // console.log(i)
+        dayOneTempSum+= kelvinToFahrenheit(responseFiveDay.list[i].main.temp);
+        dayOneHumidSum+= responseFiveDay.list[i].main.humidity; 
+        // console.log(dayOneTempSum + " , " + dayOneHumidSum + " , " + counter)
+    }
     
-    // dayOneTempSum = (dayOneTempSum).toFixed(0);
-    // dayOneHumidSum = (dayOneHumidSum).toFixed(0);
+    dayOneTempSum = (dayOneTempSum/8).toFixed(0);
+    dayOneHumidSum = (dayOneHumidSum/8).toFixed(0);
        
     console.log("Day One Info: Date " + dayOneDate +"\nDay One Icon: " + dayOneIcon +"\nDay One Temp: " + dayOneTempSum +"F.\nDay One Humidity: " + dayOneHumidSum + "%.");
-
-
     
     dayTwoDate;
     dayTwoIcon;
