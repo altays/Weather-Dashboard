@@ -66,6 +66,16 @@ function averageAndDecimals(value,divisor){
     return (value/divisor).toFixed(2);
 }
 
+function uvColor(uvValue) {
+    if (uvValue >= 0 && uvValue <= 2 ){
+        return "green";
+    } else if (uvValue >= 3 && uvValue <= 5 ){
+        return "orange";
+    } else {
+        return "red";
+    }
+}
+
 //dynamic page updating
 $(document).ready(function() {
 
@@ -153,7 +163,7 @@ $(document).ready(function() {
 
             cityNameDump.text("Selected City: " + cityName)
             tempDump.text("Current Temperature: " + currentTempFahrenheit + "F");
-            weatherImg.attr("src","http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png");
+            weatherImg.attr("src","http://openweathermap.org/img/wn/" + weatherIcon.slice(0,2) + "d@2x.png");
             weatherImg.attr("alt",weatherIconAltText)
             humidDump.text("Current Humidity: " + currentHumid +"%");
             windDump.text("Current Wind Speed: " + currentWindSpeed+ "mph");
@@ -168,8 +178,10 @@ $(document).ready(function() {
             })).then(function(responseUV){
                 uvValue=responseUV.value;
                 // console.log(uvValue + " UV");
-
+                
+                uvDump.attr("style","color:" + uvColor(uvValue))
                 uvDump.text("UV Index: " + uvValue);
+
             })
         })
 
@@ -210,8 +222,7 @@ $(document).ready(function() {
             dayOneTempSum = averageAndDecimals(dayOneTempSum,8);
             dayOneHumidSum = averageAndDecimals(dayOneHumidSum,8);
             dayOneDate = responseFiveDay.list[counter+1].dt_txt.slice(5,10);
-
-            // console.log("Day One Info: Date " + dayOneDate +"\nDay One Icon: " + dayOneIcon +"\nDay One Temp: " + dayOneTempSum +"F.\nDay One Humidity: " + dayOneHumidSum + "%.");
+            console.log("Day One Info: Date " + dayOneDate +"\nDay One Icon: " + dayOneIcon +"\nDay One Temp: " + dayOneTempSum +"F.\nDay One Humidity: " + dayOneHumidSum + "%.");
             
             //day two
             for (let i = (7 + counter); i < (15 + counter); i++) {
@@ -225,7 +236,7 @@ $(document).ready(function() {
             dayTwoIcon=responseFiveDay.list[counter+9].weather[0].icon;
             dayTwoTempSum=averageAndDecimals(dayTwoTempSum,8);
             dayTwoHumidSum=averageAndDecimals(dayTwoHumidSum,8);
-            // console.log("Day Two Info: Date " + dayTwoDate +"\nIcon: " + dayTwoIcon+"\nTemp: " + dayTwoTempSum + "\nHumidity: " + dayTwoHumidSum);
+            console.log("Day Two Info: Date " + dayTwoDate +"\nIcon: " + dayTwoIcon+"\nTemp: " + dayTwoTempSum + "\nHumidity: " + dayTwoHumidSum);
             
             //day three
             for (let i = (15 + counter); i < (23 + counter); i++) {
@@ -237,7 +248,7 @@ $(document).ready(function() {
             dayThreeIcon=responseFiveDay.list[counter+17].weather[0].icon;
             dayThreeTempSum=averageAndDecimals(dayThreeTempSum,8);
             dayThreeHumidSum=averageAndDecimals(dayThreeHumidSum,8);
-            // console.log("Day Three Info: Date " + dayThreeDate +"\nIcon: " + dayThreeIcon+"\nTemp: " + dayThreeTempSum + "\nHumidity: " + dayThreeHumidSum);
+            console.log("Day Three Info: Date " + dayThreeDate +"\nIcon: " + dayThreeIcon+"\nTemp: " + dayThreeTempSum + "\nHumidity: " + dayThreeHumidSum);
             
             //day four
             for (let i = (23 + counter); i < (31 + counter); i++) {
@@ -249,7 +260,7 @@ $(document).ready(function() {
             dayFourIcon=responseFiveDay.list[counter+25].weather[0].icon;
             dayFourTempSum=averageAndDecimals(dayFourTempSum,8);
             dayFourHumidSum=averageAndDecimals(dayFourHumidSum,8);
-            // console.log("Day Four Info: \nDate " + dayFourDate +"\nIcon: " + dayFourIcon+"\nTemp: " + dayFourTempSum + "\nHumidity: " + dayFourHumidSum);
+            console.log("Day Four Info: \nDate " + dayFourDate +"\nIcon: " + dayFourIcon+"\nTemp: " + dayFourTempSum + "\nHumidity: " + dayFourHumidSum);
 
             //day five
             let lastDayCounter=0;
@@ -265,8 +276,35 @@ $(document).ready(function() {
             dayFiveIcon=responseFiveDay.list[counter+33].weather[0].icon;
             dayFiveTempSum=averageAndDecimals(dayFiveTempSum,lastDayCounter);
             dayFiveHumidSum=averageAndDecimals(dayFiveHumidSum,lastDayCounter);
-            // console.log("Day Five Info: \nDate " + dayFiveDate +"\nIcon: " + dayFiveIcon+"\nTemp: " + dayFiveTempSum + "\nHumidity: " + dayFiveHumidSum);
-            // counter=0;
+            console.log("Day Five Info: \nDate " + dayFiveDate +"\nIcon: " + dayFiveIcon+"\nTemp: " + dayFiveTempSum + "\nHumidity: " + dayFiveHumidSum);
+
+            // console.log(dayOneIcon.slice(0,2));
+
+            fiveDayD1Img.attr("src","http://openweathermap.org/img/wn/" + dayOneIcon.slice(0,2) + "d@2x.png");
+            fiveDayD1Img.attr("alt","Weather for Day One")
+            fiveDayD1Title.text(dayOneDate);
+            fiveDayD1Para.text("Temperature: " + dayOneTempSum + "F\n Humdity: " + dayOneHumidSum + "%");
+
+            fiveDayD2Img.attr("src","http://openweathermap.org/img/wn/" + dayTwoIcon.slice(0,2) + "d@2x.png");
+            fiveDayD2Img.attr("alt","Weather for Day Two")
+            fiveDayD2Title.text(dayTwoDate);
+            fiveDayD2Para.text("Temperature: " + dayTwoTempSum + "F\n Humdity: " + dayTwoHumidSum + "%");
+
+            fiveDayD3Img.attr("src","http://openweathermap.org/img/wn/" + dayThreeIcon.slice(0,2) + "d@2x.png");
+            fiveDayD3Img.attr("alt","Weather for Day Three")
+            fiveDayD3Title.text(dayThreeDate);
+            fiveDayD3Para.text("Temperature: " + dayThreeTempSum + "F\n Humdity: " + dayThreeHumidSum + "%");
+
+            fiveDayD4Img.attr("src","http://openweathermap.org/img/wn/" + dayFourIcon.slice(0,2) + "d@2x.png");
+            fiveDayD4Img.attr("alt","Weather for Day Four")
+            fiveDayD4Title.text(dayFourDate);
+            fiveDayD4Para.text("Temperature: " + dayFourTempSum + "F\n Humdity: " + dayFourHumidSum + "%");
+
+            fiveDayD5Img.attr("src","http://openweathermap.org/img/wn/" + dayFiveIcon.slice(0,2) + "d@2x.png");
+            fiveDayD5Img.attr("alt","Weather for Day Five")
+            fiveDayD5Title.text(dayFiveDate);
+            fiveDayD5Para.text("Temperature: " + dayFiveTempSum + "F\n Humdity: " + dayFiveHumidSum + "%");
+
         })
 
 
