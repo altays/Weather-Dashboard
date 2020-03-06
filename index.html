@@ -13,6 +13,7 @@
             <div class="row d-flex text-center">
                 <div class="col">
                     <h1 class="h1">Weather Text Dump</h1>
+                    <p>the date</p>
                 </div>
             </div>
         </div>
@@ -22,7 +23,7 @@
     <main>
         <div class="container">
             <div class="row">
-                <div class="col">
+                <div class="col-4">
                     <form>
                         <div class="form-row">
                             <div class="form-group col-6">
@@ -33,11 +34,27 @@
                             </div>
                         </div>
                     </form>
+                    <div id="search-history">
+
+                    </div>
                 </div>
                 <div class="col">
-                    <h2>One Day Display</h2>
+                    <h2>One Day Forecast</h2>
+                    <p id="city-name-dump">Search for a city!</p>
+                    <div class="row">
+                        <div class="col-6">
+                            <p id="temp-dump">Temperature: </p>
+                        </div>
+                        <div class="col-6">
+                            <img id="weather-picture-dump" alt="Weather"></img>
+                        </div>
+                    </div>
+                    <p id="humid-dump">Humidity: </p>
+                    <p id="wind-speed">Wind speed: </p>
+                    <p id="uv-dump">UV Index: </p>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col">
                     <h2>Five Day Forecast</h2>
@@ -46,8 +63,8 @@
                             <div class="card">
                                 <img class="card-img-top" alt="..." id="five-day-d1-img">
                                 <div class="card-body">
-                                  <h5 class="card-title" id="five-day-d1-title">Card title</h5>
-                                  <p class="card-text" id="five-day-d1-para">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                  <h5 class="card-title" id="five-day-d1-title">Day 1</h5>
+                                  <p class="card-text" id="five-day-d1-para">Search for a town to see the five day weather!</p>
                                 </div>
                               </div>
                         </div>
@@ -56,8 +73,8 @@
                             <div class="card">
                                 <img class="card-img-top" alt="..." id="five-day-d2-img">
                                 <div class="card-body">
-                                  <h5 class="card-title" id="five-day-d2-title">Card title</h5>
-                                  <p class="card-text" id="five-day-d2-para">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                  <h5 class="card-title" id="five-day-d2-title">Day 2</h5>
+                                  <p class="card-text" id="five-day-d2-para">Search for a town to see the five day weather!</p>
                                 </div>
                               </div>
                         </div>
@@ -66,8 +83,8 @@
                             <div class="card">
                                 <img class="card-img-top" alt="..." id="five-day-d3-img">
                                 <div class="card-body">
-                                  <h5 class="card-title" id="five-day-d3-title">Card title</h5>
-                                  <p class="card-text" id="five-day-d3-para">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                  <h5 class="card-title" id="five-day-d3-title">Day 3</h5>
+                                  <p class="card-text" id="five-day-d3-para">Search for a town to see the five day weather!</p>
                                 </div>
                               </div>
                         </div>
@@ -76,8 +93,8 @@
                             <div class="card">
                                 <img class="card-img-top" alt="..." id="five-day-d4-img">
                                 <div class="card-body">
-                                  <h5 class="card-title" id="five-day-d4-title">Card title</h5>
-                                  <p class="card-text" id="five-day-d4-para">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                  <h5 class="card-title" id="five-day-d4-title">Day 4</h5>
+                                  <p class="card-text" id="five-day-d4-para">Search for a town to see the five day weather!</p>
                                 </div>
                               </div>
                         </div>
@@ -86,8 +103,8 @@
                             <div class="card">
                                 <img class="card-img-top" alt="..." id="five-day-d5-img">
                                 <div class="card-body">
-                                  <h5 class="card-title" id="five-day-d5-title">Card title</h5>
-                                  <p class="card-text" id="five-day-d5-para">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                  <h5 class="card-title" id="five-day-d5-title">Day 5</h5>
+                                  <p class="card-text" id="five-day-d5-para">Search for a town to see the five day weather!</p>
                                 </div>
                               </div>
                         </div>
