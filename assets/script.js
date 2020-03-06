@@ -1,46 +1,12 @@
 // appID for open weather
 let appID="d4c97eb69f4c233c45990ad2f9bc1349";
 
-//one day
-let selectionLocation;
-let cityName;
-let weatherIcon;
-let currentTemp;
-let currentHumid;
-let currentWindSpeed;
-let currentWindDegrees
-let currentLat;
-let currentLon;
+// testing the api
 
-// uv index
-let uvValue;
+let responseVal;
 
-//5 day
 
-let dayOneDate;
-let dayOneIcon;
-let dayOneTempSum = 0;
-let dayOneHumidSum = 0;
 
-let dayTwoDate;
-let dayTwoIcon;  
-let dayTwoTempSum = 0;
-let dayTwoHumidSum = 0;
-
-let dayThreeDate;
-let dayThreeIcon;
-let dayThreeTempSum = 0;
-let dayThreeHumidSum = 0;
-
-let dayFourDate;
-let dayFourIcon;
-let dayFourTempSum = 0;
-let dayFourHumidSum = 0;
-
-let dayFiveDate;
-let dayFiveIcon;
-let dayFiveTempSum = 0;
-let dayFiveHumidSum = 0;
 
 // page generation
 
@@ -103,9 +69,52 @@ $(document).ready(function() {
 
     $("#city-submit").on("click",function(e){
         e.preventDefault();
-        console.log(searchBar.val());
+        // console.log(searchBar.val());
+
+        //one day
+        let selectionLocation;
+        let cityName;
+        let weatherIcon;
+        let currentTemp;
+        let currentHumid;
+        let currentWindSpeed;
+        let currentWindDegrees
+        let currentLat;
+        let currentLon;
+
+        // uv index
+        let uvValue;
+
+        //5 day
+
+        let dayOneDate;
+        let dayOneIcon;
+        let dayOneTempSum = 0;
+        let dayOneHumidSum = 0;
+
+        let dayTwoDate;
+        let dayTwoIcon;  
+        let dayTwoTempSum = 0;
+        let dayTwoHumidSum = 0;
+
+        let dayThreeDate;
+        let dayThreeIcon;
+        let dayThreeTempSum = 0;
+        let dayThreeHumidSum = 0;
+
+        let dayFourDate;
+        let dayFourIcon;
+        let dayFourTempSum = 0;
+        let dayFourHumidSum = 0;
+
+        let dayFiveDate;
+        let dayFiveIcon;
+        let dayFiveTempSum = 0;
+        let dayFiveHumidSum = 0;
+
         selectionLocation = searchBar.val();
 
+        // console.log(selectionLocation);
         //  search history
         
         let searchEntry = $("<p>");
@@ -117,6 +126,11 @@ $(document).ready(function() {
         searchHistory.prepend(searchEntry);
 
         dataHistory++;
+
+        let counter=0;
+        // console.log(counter + " at beginning");
+
+        
 
         // one day
         $.ajax(({
@@ -133,6 +147,8 @@ $(document).ready(function() {
             currentLat = response.coord.lat;
             currentLon = response.coord.lon;
 
+            console.log(cityName + "\n " + weatherIcon + "\n " + currentTempKelvin + "\n " + currentTempFahrenheit + "\n " + currentHumid + "\n " + currentWindSpeed + "\n " + currentWindDegrees + "\n " + currentLat + "\n " + currentLon + "\n " )
+
             // need latitude and longitude to get UV index
             $.ajax(({
                 url: "http://api.openweathermap.org/data/2.5/uvi?APPID="+appID+"&lat="+currentLat + "&lon=" + currentLon,
@@ -148,13 +164,12 @@ $(document).ready(function() {
             method: "GET"
         })).then(function(responseFiveDay){
 
+            // responseVal=responseFiveDay;
+            // console.log(responseVal)
             //first day - just the month and day of month
             let dayStart = responseFiveDay.list[0].dt_txt.slice(0,10);
             let dayNext;
         
-            // counter to figure out how much to offset
-            let counter=0;
-
             // loop to figure out offset
             for (let i = 0; i < 8; i++) {
                 dayNext = responseFiveDay.list[i].dt_txt.slice(0,10);
@@ -167,6 +182,7 @@ $(document).ready(function() {
             for (let i = (0 + counter); i < (7 + counter); i++) {
                 dayOneTempSum+= kelvinToFahrenheit(responseFiveDay.list[i].main.temp);
                 dayOneHumidSum+= responseFiveDay.list[i].main.humidity; 
+                // console.log(i + " in first loop")
             }
 
             //adding one to counter to start on the next day
@@ -178,9 +194,10 @@ $(document).ready(function() {
             console.log("Day One Info: Date " + dayOneDate +"\nDay One Icon: " + dayOneIcon +"\nDay One Temp: " + dayOneTempSum +"F.\nDay One Humidity: " + dayOneHumidSum + "%.");
             
             //day two
-            for (let i = (8 + counter); i < (15 + counter); i++) {
+            for (let i = (7 + counter); i < (15 + counter); i++) {
                 dayTwoTempSum+= kelvinToFahrenheit(responseFiveDay.list[i].main.temp);
                 dayTwoHumidSum+= responseFiveDay.list[i].main.humidity; 
+                // console.log(i + " in second loop")
             }
 
             //adding 9 to counter to start on next day and skip previous 8 timeblocks (one day)
@@ -191,7 +208,7 @@ $(document).ready(function() {
             console.log("Day Two Info: Date " + dayTwoDate +"\nIcon: " + dayTwoIcon+"\nTemp: " + dayTwoTempSum + "\nHumidity: " + dayTwoHumidSum);
             
             //day three
-            for (let i = (16 + counter); i < (23 + counter); i++) {
+            for (let i = (15 + counter); i < (23 + counter); i++) {
                 dayThreeTempSum+= kelvinToFahrenheit(responseFiveDay.list[i].main.temp);
                 dayThreeHumidSum+= responseFiveDay.list[i].main.humidity; 
             }
@@ -203,7 +220,7 @@ $(document).ready(function() {
             console.log("Day Three Info: Date " + dayThreeDate +"\nIcon: " + dayThreeIcon+"\nTemp: " + dayThreeTempSum + "\nHumidity: " + dayThreeHumidSum);
             
             //day four
-            for (let i = (24 + counter); i < (31 + counter); i++) {
+            for (let i = (23 + counter); i < (31 + counter); i++) {
                 dayFourTempSum+= kelvinToFahrenheit(responseFiveDay.list[i].main.temp);
                 dayFourHumidSum+= responseFiveDay.list[i].main.humidity; 
             }
@@ -217,10 +234,11 @@ $(document).ready(function() {
             //day five
             let lastDayCounter=0;
 
-            for (let i = (32 + counter); i < (responseFiveDay.list.length); i++) {
+            for (let i = (31 + counter); i < (responseFiveDay.list.length); i++) {
                 lastDayCounter++;
                 dayFiveTempSum+= kelvinToFahrenheit(responseFiveDay.list[i].main.temp);
                 dayFiveHumidSum+= responseFiveDay.list[i].main.humidity; 
+                // console.log(i + " in fifth loop")
             }
             
             dayFiveDate=responseFiveDay.list[counter+33].dt_txt.slice(5,10);
