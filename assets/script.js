@@ -5,9 +5,6 @@ let appID="d4c97eb69f4c233c45990ad2f9bc1349";
 
 let responseVal;
 
-
-
-
 // page generation
 
 // search bar and button
@@ -19,6 +16,8 @@ let searchButton = $("#city-submit");
 
 let searchHistory = $("#search-history");
 let dataHistory=0;
+
+
 
 // cards for five day
 
@@ -51,6 +50,9 @@ let humidDump = $("#humid-dump");
 let windDump = $("#wind-speed");
 let uvDump = $("#uv-dump");
 
+// one day title
+
+let oneDayHeader = $("#one-day-header");
 
 // helper functions
 
@@ -72,13 +74,14 @@ $(document).ready(function() {
         // console.log(searchBar.val());
 
         //one day
+        let currentDate;
         let selectionLocation;
         let cityName;
         let weatherIcon;
         let currentTemp;
         let currentHumid;
         let currentWindSpeed;
-        let currentWindDegrees
+        let currentWindDegrees;
         let currentLat;
         let currentLon;
 
@@ -130,15 +133,16 @@ $(document).ready(function() {
         let counter=0;
         // console.log(counter + " at beginning");
 
-        
-
         // one day
         $.ajax(({
             url: "http://api.openweathermap.org/data/2.5/weather?q=" + selectionLocation + "&APPID=" + appID,
             method: "POST"
         })).then(function(response){
+            console.log(response);
+
             cityName = response.name;
             weatherIcon = response.weather[0].icon;
+            weatherIconAltText = response.weather[0].description;
             currentTempKelvin = response.main.temp;
             currentTempFahrenheit = kelvinToFahrenheit(currentTempKelvin).toFixed(2);
             currentHumid= response.main.humidity;
@@ -147,7 +151,15 @@ $(document).ready(function() {
             currentLat = response.coord.lat;
             currentLon = response.coord.lon;
 
-            console.log(cityName + "\n " + weatherIcon + "\n " + currentTempKelvin + "\n " + currentTempFahrenheit + "\n " + currentHumid + "\n " + currentWindSpeed + "\n " + currentWindDegrees + "\n " + currentLat + "\n " + currentLon + "\n " )
+            cityNameDump.text("Selected City: " + cityName)
+            tempDump.text("Current Temperature: " + currentTempFahrenheit + "F");
+            weatherImg.attr("src","http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png");
+            weatherImg.attr("alt",weatherIconAltText)
+            humidDump.text("Current Humidity: " + currentHumid +"%");
+            windDump.text("Current Wind Speed: " + currentWindSpeed+ "mph");
+            
+
+            // console.log(cityName + "\n " + weatherIcon + "\n " + currentTempKelvin + "\n " + currentTempFahrenheit + "\n " + currentHumid + "\n " + currentWindSpeed + "\n " + currentWindDegrees + "\n " + currentLat + "\n " + currentLon + "\n " )
 
             // need latitude and longitude to get UV index
             $.ajax(({
@@ -155,6 +167,9 @@ $(document).ready(function() {
                 method: "GET"
             })).then(function(responseUV){
                 uvValue=responseUV.value;
+                // console.log(uvValue + " UV");
+
+                uvDump.text("UV Index: " + uvValue);
             })
         })
 
@@ -164,7 +179,7 @@ $(document).ready(function() {
             method: "GET"
         })).then(function(responseFiveDay){
 
-            // responseVal=responseFiveDay;
+            responseVal=responseFiveDay;
             // console.log(responseVal)
             //first day - just the month and day of month
             let dayStart = responseFiveDay.list[0].dt_txt.slice(0,10);
@@ -177,6 +192,11 @@ $(document).ready(function() {
                     counter++;
                 }
             }
+
+            currentDate = responseFiveDay.list[0].dt_txt.slice(6,10);
+            oneDayHeader.text("One Day Forecast for " + currentDate);
+            console.log(currentDate);
+
 
             //day one
             for (let i = (0 + counter); i < (7 + counter); i++) {
@@ -191,7 +211,7 @@ $(document).ready(function() {
             dayOneHumidSum = averageAndDecimals(dayOneHumidSum,8);
             dayOneDate = responseFiveDay.list[counter+1].dt_txt.slice(5,10);
 
-            console.log("Day One Info: Date " + dayOneDate +"\nDay One Icon: " + dayOneIcon +"\nDay One Temp: " + dayOneTempSum +"F.\nDay One Humidity: " + dayOneHumidSum + "%.");
+            // console.log("Day One Info: Date " + dayOneDate +"\nDay One Icon: " + dayOneIcon +"\nDay One Temp: " + dayOneTempSum +"F.\nDay One Humidity: " + dayOneHumidSum + "%.");
             
             //day two
             for (let i = (7 + counter); i < (15 + counter); i++) {
@@ -205,7 +225,7 @@ $(document).ready(function() {
             dayTwoIcon=responseFiveDay.list[counter+9].weather[0].icon;
             dayTwoTempSum=averageAndDecimals(dayTwoTempSum,8);
             dayTwoHumidSum=averageAndDecimals(dayTwoHumidSum,8);
-            console.log("Day Two Info: Date " + dayTwoDate +"\nIcon: " + dayTwoIcon+"\nTemp: " + dayTwoTempSum + "\nHumidity: " + dayTwoHumidSum);
+            // console.log("Day Two Info: Date " + dayTwoDate +"\nIcon: " + dayTwoIcon+"\nTemp: " + dayTwoTempSum + "\nHumidity: " + dayTwoHumidSum);
             
             //day three
             for (let i = (15 + counter); i < (23 + counter); i++) {
@@ -217,7 +237,7 @@ $(document).ready(function() {
             dayThreeIcon=responseFiveDay.list[counter+17].weather[0].icon;
             dayThreeTempSum=averageAndDecimals(dayThreeTempSum,8);
             dayThreeHumidSum=averageAndDecimals(dayThreeHumidSum,8);
-            console.log("Day Three Info: Date " + dayThreeDate +"\nIcon: " + dayThreeIcon+"\nTemp: " + dayThreeTempSum + "\nHumidity: " + dayThreeHumidSum);
+            // console.log("Day Three Info: Date " + dayThreeDate +"\nIcon: " + dayThreeIcon+"\nTemp: " + dayThreeTempSum + "\nHumidity: " + dayThreeHumidSum);
             
             //day four
             for (let i = (23 + counter); i < (31 + counter); i++) {
@@ -229,7 +249,7 @@ $(document).ready(function() {
             dayFourIcon=responseFiveDay.list[counter+25].weather[0].icon;
             dayFourTempSum=averageAndDecimals(dayFourTempSum,8);
             dayFourHumidSum=averageAndDecimals(dayFourHumidSum,8);
-            console.log("Day Four Info: \nDate " + dayFourDate +"\nIcon: " + dayFourIcon+"\nTemp: " + dayFourTempSum + "\nHumidity: " + dayFourHumidSum);
+            // console.log("Day Four Info: \nDate " + dayFourDate +"\nIcon: " + dayFourIcon+"\nTemp: " + dayFourTempSum + "\nHumidity: " + dayFourHumidSum);
 
             //day five
             let lastDayCounter=0;
@@ -245,7 +265,7 @@ $(document).ready(function() {
             dayFiveIcon=responseFiveDay.list[counter+33].weather[0].icon;
             dayFiveTempSum=averageAndDecimals(dayFiveTempSum,lastDayCounter);
             dayFiveHumidSum=averageAndDecimals(dayFiveHumidSum,lastDayCounter);
-            console.log("Day Five Info: \nDate " + dayFiveDate +"\nIcon: " + dayFiveIcon+"\nTemp: " + dayFiveTempSum + "\nHumidity: " + dayFiveHumidSum);
+            // console.log("Day Five Info: \nDate " + dayFiveDate +"\nIcon: " + dayFiveIcon+"\nTemp: " + dayFiveTempSum + "\nHumidity: " + dayFiveHumidSum);
             // counter=0;
         })
 
