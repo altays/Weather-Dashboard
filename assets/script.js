@@ -19,6 +19,7 @@ let dataHistory=0;
 let searchArray=[];
 let entryIndex=0;
 
+
 // cards for five day
 
 let fiveDayD1Img = $("#five-day-d1-img");
@@ -171,7 +172,7 @@ function ajaxCall() {
 
     // five day
     $.ajax(({
-        url: "http://api.openweathermap.org/data/2.5/forecast?q=" + selectionLocation + "&APPID=" + appID,
+        url: "https://api.openweathermap.org/data/2.5/forecast?q=" + selectionLocation + "&APPID=" + appID,
         method: "GET"
     })).then(function(responseFiveDay){
 
