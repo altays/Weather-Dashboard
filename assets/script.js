@@ -139,7 +139,7 @@ function ajaxCall() {
 
     // one day
     $.ajax(({
-        url: "http://api.openweathermap.org/data/2.5/weather?q=" + selectionLocation + "&APPID=" + appID,
+        url: "https://api.openweathermap.org/data/2.5/weather?q=" + selectionLocation + "&APPID=" + appID,
         method: "POST"
     })).then(function(response){
         cityName = response.name;
