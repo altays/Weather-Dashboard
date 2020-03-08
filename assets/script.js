@@ -161,7 +161,7 @@ function ajaxCall() {
         windDump.text("Current Wind Speed: " + currentWindSpeed+ "mph");
         
         $.ajax(({
-            url: "http://api.openweathermap.org/data/2.5/uvi?APPID="+appID+"&lat="+currentLat + "&lon=" + currentLon,
+            url: "https://api.openweathermap.org/data/2.5/uvi?APPID="+appID+"&lat="+currentLat + "&lon=" + currentLon,
             method: "GET"
         })).then(function(responseUV){
             uvValue=responseUV.value;
