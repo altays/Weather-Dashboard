@@ -193,62 +193,62 @@ function ajaxCall() {
         oneDayHeader.text("One Day Forecast for " + currentDate);
 
         //day one
-        for (let i = (0 + counter); i < (7 + counter); i++) {
+        for (let i = 0; i < counter; i++) {
             dayOneTempSum+= kelvinToFahrenheit(responseFiveDay.list[i].main.temp);
             dayOneHumidSum+= responseFiveDay.list[i].main.humidity; 
         }
 
-        //adding one to counter to start on the next day
-        dayOneIcon=responseFiveDay.list[counter+1].weather[0].icon;
+        // starting on first day
+        dayOneIcon=responseFiveDay.list[0].weather[0].icon;
         dayOneTempSum = averageAndDecimals(dayOneTempSum,8);
         dayOneHumidSum = averageAndDecimals(dayOneHumidSum,8);
-        dayOneDate = responseFiveDay.list[counter+1].dt_txt.slice(5,10);
+        dayOneDate = responseFiveDay.list[0].dt_txt.slice(5,10);
         
         //day two
-        for (let i = (7 + counter); i < (15 + counter); i++) {
+        for (let i = (1 + counter); i < (8 + counter); i++) {
             dayTwoTempSum+= kelvinToFahrenheit(responseFiveDay.list[i].main.temp);
             dayTwoHumidSum+= responseFiveDay.list[i].main.humidity; 
         }
 
-        //adding 9 to counter to start on next day and skip previous 8 timeblocks (one day)
-        dayTwoDate=responseFiveDay.list[counter+9].dt_txt.slice(5,10);
-        dayTwoIcon=responseFiveDay.list[counter+9].weather[0].icon;
+        //adding counter to offset start 
+        dayTwoDate=responseFiveDay.list[counter+0].dt_txt.slice(5,10);
+        dayTwoIcon=responseFiveDay.list[counter+0].weather[0].icon;
         dayTwoTempSum=averageAndDecimals(dayTwoTempSum,8);
         dayTwoHumidSum=averageAndDecimals(dayTwoHumidSum,8);
         
         //day three
-        for (let i = (15 + counter); i < (23 + counter); i++) {
+        for (let i = (9 + counter); i < (16 + counter); i++) {
             dayThreeTempSum+= kelvinToFahrenheit(responseFiveDay.list[i].main.temp);
             dayThreeHumidSum+= responseFiveDay.list[i].main.humidity; 
         }
 
-        dayThreeDate=responseFiveDay.list[counter+17].dt_txt.slice(5,10);
-        dayThreeIcon=responseFiveDay.list[counter+17].weather[0].icon;
+        dayThreeDate=responseFiveDay.list[counter+8].dt_txt.slice(5,10);
+        dayThreeIcon=responseFiveDay.list[counter+8].weather[0].icon;
         dayThreeTempSum=averageAndDecimals(dayThreeTempSum,8);
         dayThreeHumidSum=averageAndDecimals(dayThreeHumidSum,8);
         
         //day four
-        for (let i = (23 + counter); i < (31 + counter); i++) {
+        for (let i = (17 + counter); i < (24 + counter); i++) {
             dayFourTempSum+= kelvinToFahrenheit(responseFiveDay.list[i].main.temp);
             dayFourHumidSum+= responseFiveDay.list[i].main.humidity; 
         }
         
-        dayFourDate=responseFiveDay.list[counter+25].dt_txt.slice(5,10);
-        dayFourIcon=responseFiveDay.list[counter+25].weather[0].icon;
+        dayFourDate=responseFiveDay.list[counter+16].dt_txt.slice(5,10);
+        dayFourIcon=responseFiveDay.list[counter+16].weather[0].icon;
         dayFourTempSum=averageAndDecimals(dayFourTempSum,8);
         dayFourHumidSum=averageAndDecimals(dayFourHumidSum,8);
         
         //day five
         let lastDayCounter=0;
 
-        for (let i = (32 + counter); i < (responseFiveDay.list.length); i++) {
+        for (let i = (25 + counter); i < responseFiveDay.list.length; i++) {
             lastDayCounter++;
             dayFiveTempSum+= kelvinToFahrenheit(responseFiveDay.list[i].main.temp);
             dayFiveHumidSum+= responseFiveDay.list[i].main.humidity; 
         }
         
-        dayFiveDate=responseFiveDay.list[counter+31].dt_txt.slice(5,10);
-        dayFiveIcon=responseFiveDay.list[counter+31].weather[0].icon;
+        dayFiveDate=responseFiveDay.list[counter+24].dt_txt.slice(5,10);
+        dayFiveIcon=responseFiveDay.list[counter+24].weather[0].icon;
         dayFiveTempSum=averageAndDecimals(dayFiveTempSum,lastDayCounter);
         dayFiveHumidSum=averageAndDecimals(dayFiveHumidSum,lastDayCounter);
         
