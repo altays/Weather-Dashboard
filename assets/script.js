@@ -190,7 +190,7 @@ function ajaxCall() {
         }
 
         currentDate = responseFiveDay.list[0].dt_txt.slice(6,10);
-        oneDayHeader.text("One Day Forecast for " + currentDate);
+        oneDayHeader.text("One Day Forecast for " + selectionLocation + " on "+ currentDate);
 
         //day one
         for (let i = 0; i < counter; i++) {
