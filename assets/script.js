@@ -78,7 +78,7 @@ function uvColor(uvValue) {
     }
 }
 
-// ajax call
+// function for ajax call
 
 function ajaxCall() {
     //one day
@@ -156,7 +156,8 @@ function ajaxCall() {
         cityNameDump.text("Selected City: " + cityName)
         tempDump.text("Current Temperature: " + currentTempFahrenheit + "F");
         weatherImg.attr("src","http://openweathermap.org/img/wn/" + weatherIcon.slice(0,2) + "d@2x.png");
-        weatherImg.attr("alt",weatherIconAltText)
+        weatherImg.attr("alt",weatherIconAltText);
+        weatherImg.attr("style","block");
         humidDump.text("Current Humidity: " + currentHumid +"%");
         windDump.text("Current Wind Speed: " + currentWindSpeed+ "mph");
         
@@ -190,7 +191,7 @@ function ajaxCall() {
         }
 
         currentDate = responseFiveDay.list[0].dt_txt.slice(6,10);
-        oneDayHeader.text("One Day Forecast for " + currentDate);
+        oneDayHeader.text("One Day Forecast for " + selectionLocation + " on "+ currentDate);
 
         //day one
         for (let i = 0; i < counter; i++) {
@@ -253,34 +254,53 @@ function ajaxCall() {
         dayFiveHumidSum=averageAndDecimals(dayFiveHumidSum,lastDayCounter);
         
         fiveDayD1Img.attr("src","http://openweathermap.org/img/wn/" + dayOneIcon.slice(0,2) + "d@2x.png");
-        fiveDayD1Img.attr("alt","Weather for Day One")
+        fiveDayD1Img.attr("alt","Weather for Day One");
+        fiveDayD1Img.attr("style","display:block");
         fiveDayD1Title.text(dayOneDate);
         fiveDayD1Para.text("Temperature: " + dayOneTempSum + "F\n Humdity: " + dayOneHumidSum + "%");
 
         fiveDayD2Img.attr("src","http://openweathermap.org/img/wn/" + dayTwoIcon.slice(0,2) + "d@2x.png");
         fiveDayD2Img.attr("alt","Weather for Day Two")
         fiveDayD2Title.text(dayTwoDate);
+        fiveDayD2Img.attr("style","display:block");
         fiveDayD2Para.text("Temperature: " + dayTwoTempSum + "F\n Humdity: " + dayTwoHumidSum + "%");
 
         fiveDayD3Img.attr("src","http://openweathermap.org/img/wn/" + dayThreeIcon.slice(0,2) + "d@2x.png");
         fiveDayD3Img.attr("alt","Weather for Day Three")
         fiveDayD3Title.text(dayThreeDate);
+        fiveDayD3Img.attr("style","display:block");
         fiveDayD3Para.text("Temperature: " + dayThreeTempSum + "F\n Humdity: " + dayThreeHumidSum + "%");
 
         fiveDayD4Img.attr("src","http://openweathermap.org/img/wn/" + dayFourIcon.slice(0,2) + "d@2x.png");
         fiveDayD4Img.attr("alt","Weather for Day Four")
         fiveDayD4Title.text(dayFourDate);
+        fiveDayD4Img.attr("style","display:block");
         fiveDayD4Para.text("Temperature: " + dayFourTempSum + "F\n Humdity: " + dayFourHumidSum + "%");
 
         fiveDayD5Img.attr("src","http://openweathermap.org/img/wn/" + dayFiveIcon.slice(0,2) + "d@2x.png");
         fiveDayD5Img.attr("alt","Weather for Day Five")
         fiveDayD5Title.text(dayFiveDate);
+        fiveDayD5Img.attr("style","display:block");
         fiveDayD5Para.text("Temperature: " + dayFiveTempSum + "F\n Humdity: " + dayFiveHumidSum + "%");
     });
 }
 
-//dynamic page updating
-$(document).ready(function() {
+function unloadImages() {
+    // setting all images to not display on load
+    weatherImg.attr("style" ,"display:none");
+    fiveDayD1Img.attr("style" ,"display:none");
+    fiveDayD2Img.attr("style" ,"display:none");
+    fiveDayD3Img.attr("style" ,"display:none");
+    fiveDayD4Img.attr("style" ,"display:none");
+    fiveDayD5Img.attr("style" ,"display:none");
+}
+
+
+$(document).ready(function(){ 
+
+    //dynamic page updating
+
+    unloadImages();
 
     // clicking on submit button activates the submit button function
     $("#city-submit").on("click",function(e){
@@ -296,5 +316,7 @@ $(document).ready(function() {
         ajaxCall();
         
     });
+
+
 })
 
