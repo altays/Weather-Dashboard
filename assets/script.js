@@ -78,7 +78,7 @@ function uvColor(uvValue) {
     }
 }
 
-// ajax call
+// function for ajax call
 
 function ajaxCall() {
     //one day
@@ -279,8 +279,22 @@ function ajaxCall() {
     });
 }
 
-//dynamic page updating
-$(document).ready(function() {
+function unloadImages() {
+    // setting all images to not display on load
+    weatherImg.attr("style" ,"display:none");
+    fiveDayD1Img.attr("style" ,"display:none");
+    fiveDayD2Img.attr("style" ,"display:none");
+    fiveDayD3Img.attr("style" ,"display:none");
+    fiveDayD4Img.attr("style" ,"display:none");
+    fiveDayD5Img.attr("style" ,"display:none");
+}
+
+
+$(document).ready(function(){ 
+
+    //dynamic page updating
+
+    $(document).load(unloadImages());
 
     // clicking on submit button activates the submit button function
     $("#city-submit").on("click",function(e){
@@ -296,5 +310,7 @@ $(document).ready(function() {
         ajaxCall();
         
     });
+
+
 })
 
