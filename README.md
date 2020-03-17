@@ -66,9 +66,3 @@ THEN I am again presented with current and future conditions for that city
 ```
 
 This acceptance criteria was satisfied by setting a click event on the document whenever an element with the "search-entry" class was clicked. This re-enters the value from that element back into the input box and resubmits it into the ajax call for one and five day weather.
-
-## Issues / Future Updates
-
-The primary issue is that when search history goes over five entries, the layout gets affected. 
-
-One potential update would be to use arrays to store the one and five day weather. This would allow for less variables to be used and would create more concise code.
