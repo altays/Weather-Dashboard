@@ -17,10 +17,9 @@ let searchButton = $("#city-submit");
 let searchHistory = $("#search-history");
 let dataHistory=0;
 let searchArray=[];
-let entryIndex=0;
 
 
-// cards for five day
+// cards for five day 
 
 let fiveDayD1Img = $("#five-day-d1-img");
 let fiveDayD1Title = $("#five-day-d1-title");
@@ -78,6 +77,21 @@ function uvColor(uvValue) {
     }
 }
 
+// managing search history
+
+// adding selection location to beginning search array if there are less than five entries. 
+// else, pop off the last entry and add
+
+function searchHistoryManager(searchArray,searchHistoryValue) {
+    if (searchArray.length < 5) {
+        searchArray.push(searchHistoryValue);
+    } else {
+        searchArray.shift();
+        searchArray.push(searchHistoryValue);
+    }
+    console.log(searchArray);
+}
+
 // function for ajax call
 
 function ajaxCall() {
@@ -122,19 +136,22 @@ function ajaxCall() {
     let dayFiveTempSum = 0;
     let dayFiveHumidSum = 0;
 
+    // puling value from search bar, putting into search history, managing search history, and entering into ajax call
     selectionLocation = searchBar.val();
-
-    let searchEntry = $("<p>");
-    let searchDivider = $("<hr>")
-    searchEntry.text(selectionLocation);
-    searchEntry.attr("class","search-entry");
-    searchEntry.attr("data-history",searchArray.length);
-    searchHistory.prepend(searchDivider);
-    searchHistory.prepend(searchEntry);
-
-    searchArray.push(selectionLocation);
+    searchHistoryManager(searchArray,selectionLocation);
+    searchHistory.empty();
+    for (i=0; i < searchArray.length; i++) {
+        let searchEntry = $("<p>");
+        let searchDivider = $("<hr>");
+        searchEntry.text(searchArray[i]);
+        searchEntry.attr("class","search-entry");
+        searchEntry.attr("data-history",i);
+        searchHistory.prepend(searchDivider);
+        searchHistory.prepend(searchEntry);
+        // searchHistory.empty();
+    }
     
-    entryIndex++;
+
     let counter=0;
 
     // one day
